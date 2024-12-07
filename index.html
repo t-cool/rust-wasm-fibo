@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>フィボナッチ計算機</title>
+</head>
+<body>
+    <h1>フィボナッチ計算機</h1>
+    <input type="number" id="input-number" placeholder="数字を入力してください">
+    <button id="calc-button">計算する</button>
+    <div id="result"></div>
+
+    <script type="module">
+        import init, { fibonacci } from "./pkg/hello_wasm.js";
+
+        async function run() {
+            await init();
+            document.getElementById('calc-button').addEventListener('click', () => {
+                const inputElement = document.getElementById('input-number');
+                const resultElement = document.getElementById('result');
+                const n = parseInt(inputElement.value);
+                if (isNaN(n) || n < 0) {
+                    resultElement.textContent = "有効な正の整数を入力してください。";
+                    return;
+                }
+                const sequence = fibonacci(n);
+                resultElement.textContent = `フィボナッチ数列（n=${n}）: ${sequence.join(', ')}`;
+            });
+        }
+
+        run();
+    </script>
+</body>
+</html>
